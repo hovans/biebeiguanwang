@@ -1,0 +1,1 @@
+System.register(["./vendor-legacy.92ff5d757b54.chunk.js"],(function(e,r){"use strict";var t;return{setters:[e=>{t=e.o}],execute:function(){e("u",(()=>{const{search:e}=t();return new URLSearchParams(e)}))}}}));

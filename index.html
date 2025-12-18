@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="utf-8" />
+  <link href="/favicon.svg" rel="icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta content="#102693" name="theme-color" />
+  <link href="/favicon.svg" rel="apple-touch-icon" />
+  <title></title>
+  <meta name="robots" content="index,follow" />
+  <!-- 先加载配置文件 -->
+  <script src="/config.js"></script>
+  <script>
+      window.addEventListener('DOMContentLoaded', (event) => {
+          if (window.location.hash.startsWith('#/register')) {
+              const newUrl = window.location.origin + window.location.hash.replace('#', '');
+              window.location.replace(newUrl);
+          }
+      });
+  </script>
+
+    <script type="text/javascript">
+      window.$crisp = [];
+      window.CRISP_WEBSITE_ID=window.config?.crispWebsiteId || "17023143-8c98-4e8a-9df7-8760ba285c5d";
+      (function () {
+          d = document;
+          s = d.createElement("script");
+          s.src = "https://client.crisp.chat/l.js";
+          s.async = 1;
+          d.getElementsByTagName("head")[0].appendChild(s);
+          s.onload = function () {
+              function updateCrispData() {
+                  if (typeof $crisp === 'undefined') return;
+                  
+                  var email = localStorage.getItem('email');
+                  var expiredAt = localStorage.getItem('expired_at');
+                  var planName = localStorage.getItem('plan_name');
+                  var resetDay = localStorage.getItem('reset_day');
+                  var remainingTraffic = localStorage.getItem('remaining_traffic_gb');
+                  
+                  if (email && window.$crisp.is("website:available")) {
+                      try {
+                          $crisp.push(["set", "user:email", [email]]);
+                          $crisp.push(["set", "session:data", [[
+                              ["plan_name", planName],
+                              ["expired_at", expiredAt ? new Date(parseInt(expiredAt) * 1000).toLocaleDateString() : "不限时"],
+                              ["reset_day", resetDay ? (resetDay + "号") : "不支持"],
+                              ["remaining_traffic", remainingTraffic + "GB"]
+                          ]]]);
+                      } catch (e) {
+                          console.error("更新Crisp会话数据时出错:", e);
+                      }
+                  }
+              }
+  
+              function showWelcomeMessage() {
+                  var email = localStorage.getItem('email');
+                  if (!email || !window.$crisp.is("website:available")) return;
+  
+                  var resetDay = localStorage.getItem('reset_day');
+                  var resetInfo = resetDay && resetDay !== "0" 
+                      ? `- 重置日期：${resetDay}天后\n`
+                      : `- 流量重置：不支持\n`;
+                  
+                  var expiredAt = localStorage.getItem('expired_at');
+                  var currentTime = Math.floor(Date.now() / 1000);
+                  var remainingTraffic = localStorage.getItem('remaining_traffic_gb');
+                  
+                  // 检查是否已到期或流量已用完
+                  if (!expiredAt||expiredAt==0) {
+                      $crisp.push(["do", "message:show", ["text", "无套餐，请先购买套餐！如已购买，请刷新官网或者重新登录。\n常见问题（回复我）：节点列表；套餐；不会用；不能支付；没到账；GPT;流媒体；苹果账号；"]]);
+                      return;
+                  }
+
+                  // 检查是否已到期或流量已用完
+                  if (parseInt(expiredAt) < currentTime) {
+                      $crisp.push(["do", "message:show", ["text", "您的套餐已到期，请及时续费！如果已续费，请刷新官网或者重新登录。"]]);
+                      return;
+                  }
+                  
+                  if (!remainingTraffic || parseFloat(remainingTraffic) <= 0) {
+                      $crisp.push(["do", "message:show", ["text", "您的流量已用完，请重置流量！可以到套餐界面点击您的套餐的购买进去后付款周期点击重置流量包。"]]);
+                      return;
+                  }
+                  
+                  var expiryInfo = expiredAt 
+                      ? `- 到期时间：${new Date(parseInt(expiredAt) * 1000).toLocaleDateString()}\n`
+                      : `- 到期时间：不限时\n`;
+  
+                  var welcomeMessage = `您好！您当前的套餐信息：\n
+  - 套餐名称：${localStorage.getItem('plan_name')}
+  - 剩余流量：${localStorage.getItem('remaining_traffic_gb')}GB
+  ${resetInfo}${expiryInfo}
+  - 最新订阅地址（节点不能用或者导入失败403可尝试导入）：${localStorage.getItem('subscribe_url')}\n
+  常见问题（回复我）：节点列表；用不了；速度慢；套餐；不会用；订阅失败；不能支付；没到账；登录不了；GPT;流媒体；重置流量；苹果账号；流量异常`;
+                  
+                  $crisp.push(["do", "message:show", ["text", welcomeMessage]]);
+              }
+  
+              window.$crisp.push(["on", "chat:opened", showWelcomeMessage]);
+              setInterval(updateCrispData, 5000);
+          };
+      })();
+  </script>
+  <script type="module" crossorigin src="/static/js/index.44dd358e3964.js"></script>
+  <link rel="modulepreload" crossorigin href="/static/js/vendor.7b4e3a5ce4ba.chunk.js">
+  <link rel="stylesheet" href="/static/css/index.fed053adcda2.css">
+  <script type="module">try{import.meta.url;import("_").catch(()=>1);}catch(e){}window.__vite_is_modern_browser=true;</script>
+  <script type="module">!function(){if(window.__vite_is_modern_browser)return;console.warn("vite: loading legacy build because dynamic import or import.meta.url is unsupported, syntax error above should be ignored");var e=document.getElementById("vite-legacy-polyfill"),n=document.createElement("script");n.src=e.src,n.onload=function(){System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))},document.body.appendChild(n)}();</script>
+</head>
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  
+  <script>
+    window.global = window;
+  </script>
+  <script nomodule>!function(){var e=document,t=e.createElement("script");if(!("noModule"in t)&&"onbeforeload"in t){var n=!1;e.addEventListener("beforeload",(function(e){if(e.target===t)n=!0;else if(!e.target.hasAttribute("nomodule")||!n)return;e.preventDefault()}),!0),t.type="module",t.src=".",e.head.appendChild(t),t.remove()}}();</script>
+  <script nomodule crossorigin id="vite-legacy-polyfill" src="/static/js/polyfills-legacy.0736b236bca7.js"></script>
+  <script nomodule crossorigin id="vite-legacy-entry" data-src="/static/js/index-legacy.104de674e3dc.js">System.import(document.getElementById('vite-legacy-entry').getAttribute('data-src'))</script>
+</body>
+</html>
