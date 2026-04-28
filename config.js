@@ -31,8 +31,8 @@ window.config = {
     imgbbApiKey: "e33b83bab9920dccd0defbf87e0bb28c" // 请替换为实际的ImgBB API key
   },
   // 官网配置
-  officialWebsite: "666.beibei.cloud",
-  website: "beibeicloud.shop beibeilink.top",
+  officialWebsite: "888.beibei.cloud",
+  website: "666.beibeicloud.shop  888.beibeicloud.shop 777.2beibei.com",
   // 主题颜色配置
   themeColors: {
     primary: {
